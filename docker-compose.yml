@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  webserver:
+    container_name: webserver
+    build: ./docker/webserver
+    depends_on:
+      - s3
+    volumes:
+      - ./app:/var/www/html:cached
+    ports:
+      - "80:80"
+  s3:
+    container_name: s3
+    image: andrewgaul/s3proxy
+    volumes:
+      - ./docker/s3:/data:cached
+    ports:
+      - "9090:80"
